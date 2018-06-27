@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.springboottest.dao.StudentDao">
+    <sql id="BASE_TABLE">
+        student
+    </sql>
+    <sql id="BASE_COLUMN">
+        id,name,age
+    </sql>
+
+    <insert id="insert" parameterType="com.springboottest.model.Student">
+        insert INTO
+          <include refid="BASE_TABLE"/>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            name,
+            <if test="age != null">
+                age,
+            </if>
+        </trim>
+        <trim prefix="VALUES(" suffix=")" suffixOverrides=",">
+            #{name},
+            <if test="age != null">
+                #{age},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.springboottest.model.Student">
+        UPDATE
+        <include refid="BASE_TABLE"/>
+        SET
+        name=#{name},age=#{age} where id=#{id}
+    </update>
+
+    <select id="selectStudents" resultType="com.springboottest.model.Student">
+        SELECT
+          <include refid="BASE_COLUMN"/>
+        from
+          <include refid="BASE_TABLE"/>
+    </select>
+
+</mapper>
